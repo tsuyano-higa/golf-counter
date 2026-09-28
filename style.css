@@ -376,3 +376,58 @@ button:disabled {
   text-align: left;
   font-weight: bold;
 }
+.score-course-name {
+  margin: 24px 0 0;
+  text-align: left;
+  font-weight: bold;
+}
+
+#par-setup-screen {
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+}
+
+.par-setup-header {
+  display: grid;
+  grid-template-columns: 48px 1fr 48px;
+  align-items: center;
+  gap: 8px;
+}
+
+.par-setup-header h1 {
+  margin: 0;
+}
+
+.par-setup-description {
+  margin: 24px 0;
+  color: #60736c;
+}
+
+.par-settings-list {
+  margin-bottom: 28px;
+}
+
+.par-setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 4px;
+  border-bottom: 1px solid #d9e3dd;
+}
+
+.par-setting-label {
+  font-weight: bold;
+}
+
+.par-select {
+  min-width: 110px;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid #b8c9c0;
+  border-radius: 8px;
+  font: inherit;
+  font-weight: bold;
+  color: #16382c;
+  background-color: #ffffff;
+}

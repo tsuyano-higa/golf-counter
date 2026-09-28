@@ -2,6 +2,9 @@
 let currentHole = 1;
 const par = 4;
 
+// HoleごとのPARを保存する配列。
+let holePars = [];
+
 // ラウンド設定。
 let courseName = "";
 let totalHoles = 18;
@@ -24,6 +27,9 @@ let editPutts = 0;
 const roundSetupScreen = document.getElementById(
   "round-setup-screen"
 );
+const parSetupScreen = document.getElementById(
+  "par-setup-screen"
+);
 const playScreen = document.getElementById("play-screen");
 const resultScreen = document.getElementById("result-screen");
 const scoreListScreen = document.getElementById(
@@ -39,6 +45,15 @@ const courseNameInput = document.getElementById("course-name");
 const nextFromRoundSetupButton = document.getElementById(
   "next-from-round-setup"
 );
+
+// PAR設定画面。
+const parSettingsList = document.getElementById(
+  "par-settings-list"
+);
+const backToRoundSetupButton = document.getElementById(
+  "back-to-round-setup"
+);
+const startRoundButton = document.getElementById("start-round");
 
 // プレー画面。
 const holeNumber = document.getElementById("hole-number");
@@ -104,9 +119,53 @@ function formatRoundDate(date) {
   return `${year} / ${month} / ${day}`;
 }
 
+// 選択したHole数に合わせてPAR設定欄を作成する。
+function renderParSettings() {
+  parSettingsList.innerHTML = "";
+
+  holePars.forEach((holePar, index) => {
+    const row = document.createElement("div");
+    const label = document.createElement("span");
+    const select = document.createElement("select");
+
+    row.className = "par-setting-row";
+    label.className = "par-setting-label";
+    select.className = "par-select";
+
+    label.textContent = `Hole ${index + 1}`;
+
+    [3, 4, 5].forEach((parValue) => {
+      const option = document.createElement("option");
+
+      option.value = parValue;
+      option.textContent = `PAR ${parValue}`;
+
+      select.append(option);
+    });
+
+    select.value = holePar;
+    select.setAttribute(
+      "aria-label",
+      `Hole ${index + 1}のPAR`
+    );
+
+    select.addEventListener("change", () => {
+      holePars[index] = Number(select.value);
+    });
+
+    row.append(label, select);
+    parSettingsList.append(row);
+  });
+}
+
+// 現在のHoleのPARを取得する。
+function getCurrentPar() {
+  return holePars[currentHole - 1] ?? 4;
+}
+
 // 現在のスコアを計算する。
 function calculateScore() {
-  return strokes - par;
+  return strokes - getCurrentPar();
 }
 
 // 数値をスコア表記へ変換する。
@@ -125,7 +184,7 @@ function formatScore(score) {
 // プレー画面を更新する。
 function updatePlayDisplay() {
   holeNumber.textContent = currentHole;
-  parNumber.textContent = par;
+  parNumber.textContent = getCurrentPar();
   strokeCount.textContent = strokes;
   puttCount.textContent = putts;
 
@@ -137,7 +196,7 @@ function updatePlayDisplay() {
 // 結果画面を更新する。
 function updateResultDisplay() {
   resultHoleNumber.textContent = currentHole;
-  resultParNumber.textContent = par;
+  resultParNumber.textContent = getCurrentPar();
   resultStrokes.textContent = strokes;
   resultPutts.textContent = putts;
   resultScore.textContent = formatScore(calculateScore());
@@ -146,12 +205,12 @@ function updateResultDisplay() {
 // 現在のHoleを保存する。
 function saveCurrentHole() {
   completedHoles.push({
-    hole: currentHole,
-    par: par,
-    strokes: strokes,
-    putts: putts,
-    score: calculateScore()
-  });
+  hole: currentHole,
+  par: getCurrentPar(),
+  strokes: strokes,
+  putts: putts,
+  score: calculateScore()
+});
 }
 
 // スコア一覧を作成する。
@@ -259,17 +318,25 @@ addEditPuttButton.disabled = false;
 // すべての画面を非表示にする。
 function hideAllScreens() {
   roundSetupScreen.hidden = true;
+  parSetupScreen.hidden = true;
   playScreen.hidden = true;
   resultScreen.hidden = true;
   scoreListScreen.hidden = true;
   holeEditScreen.hidden = true;
+}
 
   // ラウンド設定画面を表示する。
 function showRoundSetupScreen() {
   hideAllScreens();
   roundSetupScreen.hidden = false;
 }
+
+// PAR設定画面を表示する。
+function showParSetupScreen() {
+  hideAllScreens();
+  parSetupScreen.hidden = false;
 }
+
 // プレー画面を表示する。
 function showPlayScreen() {
   hideAllScreens();
@@ -306,9 +373,26 @@ nextFromRoundSetupButton.addEventListener("click", () => {
   courseName = courseNameInput.value.trim();
   totalHoles = Number(selectedHoleCount.value);
 
+  // すべてのHoleを初期値PAR4で作成する。
+  holePars = Array(totalHoles).fill(4);
+
+  renderParSettings();
+  showParSetupScreen();
+});
+
+// PAR設定からラウンド設定へ戻る。
+backToRoundSetupButton.addEventListener("click", () => {
+  showRoundSetupScreen();
+});
+
+// PAR設定を完了してラウンドを開始する。
+startRoundButton.addEventListener("click", () => {
   currentHole = 1;
   strokes = 0;
   putts = 0;
+
+  // 新しいラウンドなので過去の結果を空にする。
+  completedHoles.length = 0;
 
   updatePlayDisplay();
   showPlayScreen();
