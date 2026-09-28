@@ -2,6 +2,11 @@
 let currentHole = 1;
 const par = 4;
 
+// ラウンド設定。
+let courseName = "";
+let totalHoles = 18;
+const roundDate = new Date();
+
 // 現在の打数とPUTT数。
 let strokes = 0;
 let putts = 0;
@@ -16,10 +21,24 @@ let editStrokes = 0;
 let editPutts = 0;
 
 // 各画面。
+const roundSetupScreen = document.getElementById(
+  "round-setup-screen"
+);
 const playScreen = document.getElementById("play-screen");
 const resultScreen = document.getElementById("result-screen");
-const scoreListScreen = document.getElementById("score-list-screen");
-const holeEditScreen = document.getElementById("hole-edit-screen");
+const scoreListScreen = document.getElementById(
+  "score-list-screen"
+);
+const holeEditScreen = document.getElementById(
+  "hole-edit-screen"
+);
+
+// ラウンド設定画面。
+const roundDateDisplay = document.getElementById("round-date");
+const courseNameInput = document.getElementById("course-name");
+const nextFromRoundSetupButton = document.getElementById(
+  "next-from-round-setup"
+);
 
 // プレー画面。
 const holeNumber = document.getElementById("hole-number");
@@ -45,6 +64,9 @@ const nextHoleButton = document.getElementById("next-hole");
 const backToPlayButton = document.getElementById("back-to-play");
 
 // スコア一覧画面。
+const scoreCourseName = document.getElementById(
+  "score-course-name"
+);
 const scoreList = document.getElementById("score-list");
 const totalStrokes = document.getElementById("total-strokes");
 const totalScore = document.getElementById("total-score");
@@ -72,6 +94,15 @@ const subtractEditPuttButton = document.getElementById(
 const addEditPuttButton = document.getElementById("add-edit-putt");
 const saveHoleEditButton = document.getElementById("save-hole-edit");
 const cancelHoleEditButton = document.getElementById("cancel-hole-edit");
+
+// 日付を「2026 / 09 / 28」の形式に変換する。
+function formatRoundDate(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year} / ${month} / ${day}`;
+}
 
 // 現在のスコアを計算する。
 function calculateScore() {
@@ -125,6 +156,7 @@ function saveCurrentHole() {
 
 // スコア一覧を作成する。
 function renderScoreList() {
+  scoreCourseName.textContent = courseName;
   scoreList.innerHTML = "";
 
   toggleScoreEditButton.textContent = isEditMode
@@ -226,12 +258,18 @@ addEditPuttButton.disabled = false;
 
 // すべての画面を非表示にする。
 function hideAllScreens() {
+  roundSetupScreen.hidden = true;
   playScreen.hidden = true;
   resultScreen.hidden = true;
   scoreListScreen.hidden = true;
   holeEditScreen.hidden = true;
-}
 
+  // ラウンド設定画面を表示する。
+function showRoundSetupScreen() {
+  hideAllScreens();
+  roundSetupScreen.hidden = false;
+}
+}
 // プレー画面を表示する。
 function showPlayScreen() {
   hideAllScreens();
@@ -251,6 +289,30 @@ function showScoreListScreen() {
   hideAllScreens();
   scoreListScreen.hidden = false;
 }
+
+// コース名が入力されたら「次へ」を押せるようにする。
+courseNameInput.addEventListener("input", () => {
+  const hasCourseName = courseNameInput.value.trim() !== "";
+
+  nextFromRoundSetupButton.disabled = !hasCourseName;
+});
+
+// ラウンド設定を登録する。
+nextFromRoundSetupButton.addEventListener("click", () => {
+  const selectedHoleCount = document.querySelector(
+    'input[name="hole-count"]:checked'
+  );
+
+  courseName = courseNameInput.value.trim();
+  totalHoles = Number(selectedHoleCount.value);
+
+  currentHole = 1;
+  strokes = 0;
+  putts = 0;
+
+  updatePlayDisplay();
+  showPlayScreen();
+});
 
 // プレー画面のカウント操作。
 addStrokeButton.addEventListener("click", () => {
@@ -383,5 +445,5 @@ cancelHoleEditButton.addEventListener("click", () => {
 });
 
 // 最初の画面を表示する。
-updatePlayDisplay();
-showPlayScreen();
+roundDateDisplay.textContent = formatRoundDate(roundDate);
+showRoundSetupScreen();

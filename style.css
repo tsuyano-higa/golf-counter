@@ -293,3 +293,86 @@ button:disabled {
   display: grid;
   gap: 12px;
 }
+
+.setup-title {
+  margin-bottom: 40px;
+}
+
+.setup-field {
+  margin: 28px 0;
+  text-align: left;
+}
+
+.setup-label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.date-display {
+  margin: 0;
+  padding: 16px;
+  font-size: 20px;
+  font-weight: bold;
+  background-color: #f2f6f3;
+  border-radius: 10px;
+}
+
+.course-input {
+  width: 100%;
+  min-height: 56px;
+  padding: 12px 16px;
+  border: 1px solid #b8c9c0;
+  border-radius: 10px;
+  font: inherit;
+  font-size: 16px;
+}
+
+.course-input:focus {
+  border-color: #216e4e;
+  outline: 2px solid #cce3d5;
+}
+
+.hole-count-field {
+  padding: 0;
+  border: none;
+}
+
+.hole-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.hole-option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 56px;
+  padding: 12px;
+  font-weight: bold;
+  background-color: #f2f6f3;
+  border: 1px solid #d9e3dd;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.hole-option input {
+  width: 18px;
+  height: 18px;
+  accent-color: #216e4e;
+}
+
+.setup-next-button {
+  margin-top: 20px;
+  color: #ffffff;
+  background-color: #216e4e;
+}
+
+.score-course-name {
+  margin: 24px 0 0;
+  text-align: left;
+  font-weight: bold;
+}
