@@ -19,7 +19,7 @@ function updateDisplay() {
   puttCount.textContent = putts;
 
   // 0のときは、それぞれのマイナスボタンを押せなくする。
-  subtractStrokeButton.disabled = strokes === 0;
+  subtractStrokeButton.disabled = strokes <= putts;
   subtractPuttButton.disabled = putts === 0;
 }
 
@@ -31,7 +31,8 @@ addStrokeButton.addEventListener("click", () => {
 
 // 「−1打」を押したときの処理。
 subtractStrokeButton.addEventListener("click", () => {
-  if (strokes > 0) {
+  // 打数がPUTT数を下回らない場合だけ減らす。
+  if (strokes > putts) {
     strokes = strokes - 1;
   }
 
