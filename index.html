@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Golf Counter</title>
+
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <main class="counter">
+    <h1>GOLF COUNTER</h1>
+    <p>打数カウンター</p>
+
+    <p class="score" aria-live="polite" aria-atomic="true">
+      <span id="stroke-count">0</span>
+      <span class="unit">打</span>
+    </p>
+
+    <div class="buttons">
+      <button id="add-stroke" type="button">＋1打</button>
+      <button id="subtract-stroke" type="button" disabled>−1打</button>
+    </div>
+  </main>
+</body>
+</html>
