@@ -15,7 +15,13 @@ let strokes = 0;
 let putts = 0;
 
 // 終了済みHole。
-const completedHoles = [];
+let completedHoles = [];
+
+// ブラウザ保存用の名前。
+const STORAGE_KEY = "golfCounterRound";
+
+// 再読み込み後に復元する画面。
+let currentScreen = "roundSetup";
 
 // 編集状態。
 let isEditMode = false;
@@ -143,6 +149,111 @@ function formatRoundDate(date) {
   return `${year} / ${month} / ${day}`;
 }
 
+// 現在のラウンドをブラウザへ保存する。
+function saveRoundState() {
+  // コース名が未設定なら保存しない。
+  if (courseName === "") {
+    return;
+  }
+
+  const roundState = {
+    courseName: courseName,
+    totalHoles: totalHoles,
+    roundDate: roundDate.toISOString(),
+    holePars: holePars,
+    currentHole: currentHole,
+    strokes: strokes,
+    putts: putts,
+    completedHoles: completedHoles,
+    currentScreen: currentScreen
+  };
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(roundState)
+  );
+}
+
+// 保存されたラウンドを読み込む。
+function loadRoundState() {
+  const savedState = localStorage.getItem(STORAGE_KEY);
+
+  if (savedState === null) {
+    return false;
+  }
+
+  try {
+    const parsedState = JSON.parse(savedState);
+
+    if (
+      typeof parsedState.courseName !== "string" ||
+      !Array.isArray(parsedState.holePars)
+    ) {
+      throw new Error("保存データの形式が正しくありません。");
+    }
+
+    courseName = parsedState.courseName;
+    totalHoles = Number(parsedState.totalHoles);
+    roundDate = new Date(parsedState.roundDate);
+    holePars = parsedState.holePars.map(Number);
+    currentHole = Number(parsedState.currentHole);
+    strokes = Number(parsedState.strokes);
+    putts = Number(parsedState.putts);
+    completedHoles = Array.isArray(parsedState.completedHoles)
+      ? parsedState.completedHoles
+      : [];
+    currentScreen = parsedState.currentScreen || "play";
+
+    return true;
+  } catch (error) {
+    console.error("ラウンドの復元に失敗しました。", error);
+
+    // 壊れた保存データを削除する。
+    localStorage.removeItem(STORAGE_KEY);
+
+    return false;
+  }
+}
+
+// 保存されたラウンドを画面へ反映する。
+function restoreRoundState() {
+  courseNameInput.value = courseName;
+  nextFromRoundSetupButton.disabled = courseName === "";
+  roundDateDisplay.textContent = formatRoundDate(roundDate);
+
+  const savedHoleCount = document.querySelector(
+    `input[name="hole-count"][value="${totalHoles}"]`
+  );
+
+  if (savedHoleCount !== null) {
+    savedHoleCount.checked = true;
+  }
+
+  if (currentScreen === "roundSetup") {
+    showRoundSetupScreen();
+    return;
+  }
+
+  if (currentScreen === "parSetup") {
+    renderParSettings();
+    showParSetupScreen();
+    return;
+  }
+
+  if (currentScreen === "result") {
+    showResultScreen();
+    return;
+  }
+
+  if (currentScreen === "final") {
+    showFinalResultScreen();
+    return;
+  }
+
+  updatePlayDisplay();
+  showPlayScreen();
+}
+
 // 選択したHole数に合わせてPAR設定欄を作成する。
 function renderParSettings() {
   parSettingsList.innerHTML = "";
@@ -173,9 +284,10 @@ function renderParSettings() {
       `Hole ${index + 1}のPAR`
     );
 
-    select.addEventListener("change", () => {
-      holePars[index] = Number(select.value);
-    });
+   select.addEventListener("change", () => {
+  holePars[index] = Number(select.value);
+  saveRoundState();
+});
 
     row.append(label, select);
     parSettingsList.append(row);
@@ -215,6 +327,8 @@ function updatePlayDisplay() {
   subtractStrokeButton.disabled = strokes <= putts;
   subtractPuttButton.disabled = putts === 0;
   finishHoleButton.disabled = strokes === 0;
+
+  saveRoundState();
 }
 
 // 結果画面を更新する。
@@ -406,20 +520,33 @@ function hideAllScreens() {
 
   // ラウンド設定画面を表示する。
 function showRoundSetupScreen() {
+  currentScreen = "roundSetup";
+
   hideAllScreens();
   roundSetupScreen.hidden = false;
+
+  saveRoundState();
 }
+
 
 // PAR設定画面を表示する。
 function showParSetupScreen() {
   hideAllScreens();
   parSetupScreen.hidden = false;
+
+    saveRoundState();
 }
 
 // プレー画面を表示する。
 function showPlayScreen() {
+function showPlayScreen() {
+  currentScreen = "play";
+
   hideAllScreens();
   playScreen.hidden = false;
+
+  saveRoundState();
+}
 }
 
 // 結果画面を表示する。
@@ -427,6 +554,8 @@ function showResultScreen() {
   updateResultDisplay();
   hideAllScreens();
   resultScreen.hidden = false;
+
+    saveRoundState();
 }
 
 // スコア一覧を表示する。
@@ -448,6 +577,8 @@ function showFinalResultScreen() {
   renderFinalResult();
   hideAllScreens();
   finalResultScreen.hidden = false;
+
+    saveRoundState();
 }
 
 // コース名が入力されたら「次へ」を押せるようにする。
@@ -622,7 +753,9 @@ saveHoleEditButton.addEventListener("click", () => {
   editingHoleIndex = null;
   isEditMode = false;
 
+  saveRoundState();
   showScoreListScreen();
+
 });
 
 // 編集をキャンセルする。
@@ -650,7 +783,11 @@ finishRoundButton.addEventListener("click", () => {
   strokes = 0;
   putts = 0;
   holePars = [];
-  completedHoles.length = 0;
+  completedHoles = [];
+  currentScreen = "roundSetup";
+
+  // 終了したラウンドの保存データを削除する。
+  localStorage.removeItem(STORAGE_KEY);
 
   courseNameInput.value = "";
   nextFromRoundSetupButton.disabled = true;
@@ -665,6 +802,18 @@ finishRoundButton.addEventListener("click", () => {
   showRoundSetupScreen();
 });
 
+// ページを閉じる直前にも保存する。
+window.addEventListener("beforeunload", () => {
+  saveRoundState();
+});
+
 // 最初の画面を表示する。
 roundDateDisplay.textContent = formatRoundDate(roundDate);
-showRoundSetupScreen();
+
+const hasSavedRound = loadRoundState();
+
+if (hasSavedRound) {
+  restoreRoundState();
+} else {
+  showRoundSetupScreen();
+}
