@@ -9,51 +9,93 @@
   <script src="script.js" defer></script>
 </head>
 <body>
-  <main class="counter">
-    <h1>GOLF COUNTER</h1>
+  <main class="app">
+    <!-- プレー画面 -->
+    <section id="play-screen" class="screen">
+      <h1>GOLF COUNTER</h1>
 
-    <section class="hole-information">
-      <p class="hole-number">
-        HOLE <span id="hole-number">1</span>
-      </p>
+      <div class="hole-information">
+        <p class="hole-number">
+          HOLE <span id="hole-number">1</span>
+        </p>
 
-      <p class="par">
-        PAR <span id="par-number">4</span>
-      </p>
+        <p class="par">
+          PAR <span id="par-number">4</span>
+        </p>
+      </div>
+
+      <div class="count-area">
+        <p class="count-label">打数</p>
+
+        <p class="count-display" aria-live="polite" aria-atomic="true">
+          <span id="stroke-count">0</span>
+          <span class="unit">打</span>
+        </p>
+      </div>
+
+      <div class="count-area">
+        <p class="count-label">PUTT</p>
+
+        <p class="count-display" aria-live="polite" aria-atomic="true">
+          <span id="putt-count">0</span>
+          <span class="unit">PUTT</span>
+        </p>
+      </div>
+
+      <div class="button-group">
+        <button id="add-stroke" class="primary-button" type="button">
+          ＋1打
+        </button>
+
+        <button id="subtract-stroke" class="secondary-button" type="button" disabled>
+          −1打
+        </button>
+      </div>
+
+      <div class="button-group">
+        <button id="add-putt" class="putt-button" type="button">
+          ＋1 PUTT
+        </button>
+
+        <button id="subtract-putt" class="secondary-putt-button" type="button" disabled>
+          −1 PUTT
+        </button>
+      </div>
+
+      <button id="finish-hole" class="finish-button" type="button" disabled>
+        ホール終了
+      </button>
     </section>
 
-    <section class="count-area">
-      <p class="count-label">打数</p>
+    <!-- ホール結果画面 -->
+    <section id="result-screen" class="screen" hidden>
+      <h1>
+        HOLE <span id="result-hole-number">1</span>
+      </h1>
 
-      <p class="count-display" aria-live="polite" aria-atomic="true">
-        <span id="stroke-count">0</span>
-        <span class="unit">打</span>
-      </p>
+      <div class="result-content">
+        <p class="result-par">
+          PAR <span id="result-par-number">4</span>
+        </p>
+
+        <p class="result-number">
+          <span id="result-strokes">0</span>打
+        </p>
+
+        <p class="result-putts">
+          <span id="result-putts">0</span> PUTT
+        </p>
+
+        <div class="result-score-area">
+          <p>SCORE</p>
+          <p id="result-score" class="result-score">±0</p>
+        </div>
+      </div>
+
+      <button id="back-to-play" class="secondary-button" type="button">
+        入力画面へ戻る
+      </button>
     </section>
-
-    <section class="count-area">
-      <p class="count-label">PUTT</p>
-
-      <p class="count-display" aria-live="polite" aria-atomic="true">
-        <span id="putt-count">0</span>
-        <span class="unit">PUTT</span>
-      </p>
-    </section>
-
-    <section class="score-area">
-      <p class="score-label">SCORE</p>
-      <p id="score-display" class="score-display">—</p>
-    </section>
-
-    <div class="button-group">
-      <button id="add-stroke" type="button">＋1打</button>
-      <button id="subtract-stroke" type="button" disabled>−1打</button>
-    </div>
-
-    <div class="button-group">
-      <button id="add-putt" type="button">＋1 PUTT</button>
-      <button id="subtract-putt" type="button" disabled>−1 PUTT</button>
-    </div>
   </main>
 </body>
 </html>

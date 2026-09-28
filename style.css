@@ -13,13 +13,21 @@ body {
   background-color: #f2f6f3;
 }
 
-.counter {
+.app {
   width: 100%;
   max-width: 360px;
+}
+
+.screen {
+  width: 100%;
   padding: 32px 24px;
   text-align: center;
   background-color: #ffffff;
   border-radius: 20px;
+}
+
+.screen[hidden] {
+  display: none;
 }
 
 h1 {
@@ -64,25 +72,6 @@ h1 {
   font-size: 18px;
 }
 
-.score-area {
-  margin: 28px 0;
-  padding: 16px;
-  background-color: #f2f6f3;
-  border-radius: 12px;
-}
-
-.score-label {
-  margin: 0;
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.score-display {
-  margin: 4px 0 0;
-  font-size: 32px;
-  font-weight: bold;
-}
-
 .button-group {
   display: grid;
   gap: 12px;
@@ -90,36 +79,82 @@ h1 {
 }
 
 button {
+  width: 100%;
   min-height: 64px;
   border: none;
   border-radius: 12px;
   font: inherit;
-  font-size: 24px;
+  font-size: 22px;
   font-weight: bold;
   cursor: pointer;
 }
 
-#add-stroke {
+.primary-button {
   color: #ffffff;
   background-color: #216e4e;
 }
 
-#subtract-stroke {
+.secondary-button {
   color: #16382c;
   background-color: #e6eee9;
 }
 
-#add-putt {
+.putt-button {
   color: #ffffff;
   background-color: #287f9b;
 }
 
-#subtract-putt {
+.secondary-putt-button {
   color: #194d5d;
   background-color: #e4f0f4;
+}
+
+.finish-button {
+  margin-top: 32px;
+  color: #ffffff;
+  background-color: #16382c;
 }
 
 button:disabled {
   opacity: 0.4;
   cursor: not-allowed;
+}
+
+.result-content {
+  margin: 32px 0;
+}
+
+.result-par {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.result-number {
+  margin: 28px 0 8px;
+  font-size: 48px;
+  font-weight: bold;
+}
+
+.result-putts {
+  margin: 0;
+  font-size: 22px;
+  font-weight: bold;
+  color: #287f9b;
+}
+
+.result-score-area {
+  margin-top: 32px;
+  padding: 20px;
+  background-color: #f2f6f3;
+  border-radius: 12px;
+}
+
+.result-score-area p {
+  margin: 0;
+}
+
+.result-score {
+  margin-top: 8px !important;
+  font-size: 40px;
+  font-weight: bold;
 }
