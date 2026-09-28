@@ -10,8 +10,57 @@
 </head>
 <body>
   <main class="app">
+    <!-- ラウンド設定画面 -->
+<section id="round-setup-screen" class="screen">
+  <h1 class="setup-title">GOLF COUNTER</h1>
+
+  <div class="setup-field">
+    <p class="setup-label">日付</p>
+    <p id="round-date" class="date-display"></p>
+  </div>
+
+  <div class="setup-field">
+    <label class="setup-label" for="course-name">
+      コース名
+    </label>
+
+    <input
+      id="course-name"
+      class="course-input"
+      type="text"
+      placeholder="例：○○ゴルフクラブ"
+      autocomplete="off"
+    >
+  </div>
+
+  <fieldset class="setup-field hole-count-field">
+    <legend class="setup-label">ラウンド</legend>
+
+    <div class="hole-options">
+      <label class="hole-option">
+        <input type="radio" name="hole-count" value="9">
+        <span>9 HOLE</span>
+      </label>
+
+      <label class="hole-option">
+        <input type="radio" name="hole-count" value="18" checked>
+        <span>18 HOLE</span>
+      </label>
+    </div>
+  </fieldset>
+
+  <button
+    id="next-from-round-setup"
+    class="setup-next-button"
+    type="button"
+    disabled
+  >
+    次へ
+  </button>
+</section>
+
     <!-- プレー画面 -->
-    <section id="play-screen" class="screen">
+    <section id="play-screen" class="screen"hidden>
       <div class="screen-header">
         <h1>GOLF COUNTER</h1>
 
@@ -116,6 +165,8 @@
           編集
         </button>
       </div>
+
+      <p id="score-course-name" class="score-course-name"></p>
 
       <p id="edit-instruction" class="edit-instruction" hidden>
         編集するHoleを選択してください
