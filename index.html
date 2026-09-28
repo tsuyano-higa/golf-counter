@@ -11,25 +11,39 @@
 <body>
   <main class="counter">
     <h1>GOLF COUNTER</h1>
-    <p>打数・PUTTカウンター</p>
 
-    <div class="count-area">
+    <section class="hole-information">
+      <p class="hole-number">
+        HOLE <span id="hole-number">1</span>
+      </p>
+
+      <p class="par">
+        PAR <span id="par-number">4</span>
+      </p>
+    </section>
+
+    <section class="count-area">
       <p class="count-label">打数</p>
 
       <p class="count-display" aria-live="polite" aria-atomic="true">
         <span id="stroke-count">0</span>
         <span class="unit">打</span>
       </p>
-    </div>
+    </section>
 
-    <div class="count-area">
+    <section class="count-area">
       <p class="count-label">PUTT</p>
 
       <p class="count-display" aria-live="polite" aria-atomic="true">
         <span id="putt-count">0</span>
         <span class="unit">PUTT</span>
       </p>
-    </div>
+    </section>
+
+    <section class="score-area">
+      <p class="score-label">SCORE</p>
+      <p id="score-display" class="score-display">—</p>
+    </section>
 
     <div class="button-group">
       <button id="add-stroke" type="button">＋1打</button>

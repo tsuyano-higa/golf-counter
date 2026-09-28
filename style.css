@@ -27,8 +27,25 @@ h1 {
   font-size: 24px;
 }
 
+.hole-information {
+  margin: 32px 0;
+}
+
+.hole-number {
+  margin: 0;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.par {
+  margin: 8px 0 0;
+  font-size: 20px;
+  font-weight: bold;
+  color: #4f6b61;
+}
+
 .count-area {
-  margin: 28px 0;
+  margin: 24px 0;
 }
 
 .count-label {
@@ -39,12 +56,31 @@ h1 {
 
 .count-display {
   margin: 0;
-  font-size: 64px;
+  font-size: 56px;
   font-weight: bold;
 }
 
 .unit {
   font-size: 18px;
+}
+
+.score-area {
+  margin: 28px 0;
+  padding: 16px;
+  background-color: #f2f6f3;
+  border-radius: 12px;
+}
+
+.score-label {
+  margin: 0;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.score-display {
+  margin: 4px 0 0;
+  font-size: 32px;
+  font-weight: bold;
 }
 
 .button-group {
