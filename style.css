@@ -227,3 +227,69 @@ button:disabled {
 .summary-row strong {
   font-size: 20px;
 }
+
+.edit-instruction {
+  margin: 24px 0 0;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #194d5d;
+  background-color: #e4f0f4;
+  border-radius: 8px;
+}
+
+.score-row.editable {
+  cursor: pointer;
+  background-color: #f4faf6;
+  border-radius: 8px;
+}
+
+.score-row.editable:hover {
+  background-color: #e6f2eb;
+}
+
+.edit-section {
+  margin: 32px 0;
+}
+
+.edit-label {
+  font-weight: bold;
+}
+
+.edit-control {
+  display: grid;
+  grid-template-columns: 64px 1fr 64px;
+  align-items: center;
+  gap: 16px;
+}
+
+.edit-control button {
+  min-height: 56px;
+  font-size: 28px;
+  color: #16382c;
+  background-color: #e6eee9;
+}
+
+.edit-value {
+  font-size: 40px;
+}
+
+.edit-score-area {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 32px 0;
+  padding: 20px;
+  font-size: 20px;
+  background-color: #f2f6f3;
+  border-radius: 12px;
+}
+
+.edit-score-area strong {
+  font-size: 32px;
+}
+
+.edit-actions {
+  display: grid;
+  gap: 12px;
+}
