@@ -1,6 +1,5 @@
 // 現在プレーしているホール。
 let currentHole = 1;
-const par = 4;
 
 // HoleごとのPARを保存する配列。
 let holePars = [];
@@ -424,9 +423,6 @@ function renderScoreList() {
   totalPutts.textContent = totals.putts;
 }
 
-// Hole編集画面を開く。
-function openHoleEditScreen(index) {
-  }
 
 // 最終結果画面を作成する。
 function renderFinalResult() {
@@ -531,6 +527,8 @@ function showRoundSetupScreen() {
 
 // PAR設定画面を表示する。
 function showParSetupScreen() {
+    currentScreen = "parSetup";
+
   hideAllScreens();
   parSetupScreen.hidden = false;
 
@@ -539,7 +537,6 @@ function showParSetupScreen() {
 
 // プレー画面を表示する。
 function showPlayScreen() {
-function showPlayScreen() {
   currentScreen = "play";
 
   hideAllScreens();
@@ -547,10 +544,12 @@ function showPlayScreen() {
 
   saveRoundState();
 }
-}
+
 
 // 結果画面を表示する。
 function showResultScreen() {
+  currentScreen = "result";
+
   updateResultDisplay();
   hideAllScreens();
   resultScreen.hidden = false;
@@ -574,6 +573,8 @@ function showScoreListScreen() {
 
 // 最終結果画面を表示する。
 function showFinalResultScreen() {
+    currentScreen = "final";
+
   renderFinalResult();
   hideAllScreens();
   finalResultScreen.hidden = false;
