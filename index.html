@@ -12,7 +12,13 @@
   <main class="app">
     <!-- プレー画面 -->
     <section id="play-screen" class="screen">
-      <h1>GOLF COUNTER</h1>
+      <div class="screen-header">
+        <h1>GOLF COUNTER</h1>
+
+        <button id="open-score-list" class="header-button" type="button">
+          SCORE一覧
+        </button>
+      </div>
 
       <div class="hole-information">
         <p class="hole-number">
@@ -93,14 +99,42 @@
       </div>
 
       <div class="result-actions">
-  <button id="next-hole" class="next-hole-button" type="button">
-    次のホールへ
-  </button>
+        <button id="next-hole" class="next-hole-button" type="button">
+          次のホールへ
+        </button>
 
-  <button id="back-to-play" class="secondary-button" type="button">
-    入力画面へ戻る
-  </button>
-　　　</div>
+        <button id="back-to-play" class="secondary-button" type="button">
+          入力画面へ戻る
+        </button>
+      </div>
+    </section>
+
+    <!-- スコア一覧画面 -->
+    <section id="score-list-screen" class="screen" hidden>
+      <h1>SCORE一覧</h1>
+
+      <div id="score-list" class="score-list"></div>
+
+      <div class="score-summary">
+        <div class="summary-row">
+          <span>TOTAL</span>
+          <strong id="total-strokes">0</strong>
+        </div>
+
+        <div class="summary-row">
+          <span>SCORE</span>
+          <strong id="total-score">±0</strong>
+        </div>
+
+        <div class="summary-row">
+          <span>PUTT</span>
+          <strong id="total-putts">0</strong>
+        </div>
+      </div>
+
+      <button id="back-to-current-hole" class="primary-button" type="button">
+        プレー画面へ戻る
+      </button>
     </section>
   </main>
 </body>

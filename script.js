@@ -12,6 +12,7 @@ const completedHoles = [];
 // 画面全体を取得する。
 const playScreen = document.getElementById("play-screen");
 const resultScreen = document.getElementById("result-screen");
+const scoreListScreen = document.getElementById("score-list-screen");
 
 // プレー画面の表示部分を取得する。
 const holeNumber = document.getElementById("hole-number");
@@ -20,6 +21,7 @@ const strokeCount = document.getElementById("stroke-count");
 const puttCount = document.getElementById("putt-count");
 
 // プレー画面のボタンを取得する。
+const openScoreListButton = document.getElementById("open-score-list");
 const addStrokeButton = document.getElementById("add-stroke");
 const subtractStrokeButton = document.getElementById("subtract-stroke");
 const addPuttButton = document.getElementById("add-putt");
@@ -37,7 +39,16 @@ const resultScore = document.getElementById("result-score");
 const nextHoleButton = document.getElementById("next-hole");
 const backToPlayButton = document.getElementById("back-to-play");
 
-// スコアを計算する。
+// スコア一覧画面を取得する。
+const scoreList = document.getElementById("score-list");
+const totalStrokes = document.getElementById("total-strokes");
+const totalScore = document.getElementById("total-score");
+const totalPutts = document.getElementById("total-putts");
+const backToCurrentHoleButton = document.getElementById(
+  "back-to-current-hole"
+);
+
+// 現在のホールのスコアを計算する。
 function calculateScore() {
   return strokes - par;
 }
@@ -62,13 +73,8 @@ function updatePlayDisplay() {
   strokeCount.textContent = strokes;
   puttCount.textContent = putts;
 
-  // 打数がPUTT数を下回らないようにする。
   subtractStrokeButton.disabled = strokes <= putts;
-
-  // PUTTが0未満にならないようにする。
   subtractPuttButton.disabled = putts === 0;
-
-  // 0打のままホール終了できないようにする。
   finishHoleButton.disabled = strokes === 0;
 }
 
@@ -96,18 +102,84 @@ function saveCurrentHole() {
   completedHoles.push(holeResult);
 }
 
+// スコア一覧を作成する。
+function renderScoreList() {
+  // 前回表示した一覧を空にする。
+  scoreList.innerHTML = "";
+
+  if (completedHoles.length === 0) {
+    const emptyMessage = document.createElement("p");
+
+    emptyMessage.className = "empty-score-list";
+    emptyMessage.textContent = "終了済みのHoleはありません。";
+
+    scoreList.append(emptyMessage);
+  }
+
+  completedHoles.forEach((holeResult) => {
+    const scoreRow = document.createElement("div");
+    const holeLabel = document.createElement("span");
+    const strokesLabel = document.createElement("span");
+    const scoreLabel = document.createElement("span");
+
+    scoreRow.className = "score-row";
+    strokesLabel.className = "score-row-strokes";
+    scoreLabel.className = "score-row-score";
+
+    holeLabel.textContent = `Hole ${holeResult.hole}`;
+    strokesLabel.textContent = `${holeResult.strokes}打`;
+    scoreLabel.textContent = formatScore(holeResult.score);
+
+    scoreRow.append(holeLabel, strokesLabel, scoreLabel);
+    scoreList.append(scoreRow);
+  });
+
+  // 保存済みの全ホールを合計する。
+  const totals = completedHoles.reduce(
+    (result, holeResult) => {
+      result.strokes = result.strokes + holeResult.strokes;
+      result.score = result.score + holeResult.score;
+      result.putts = result.putts + holeResult.putts;
+
+      return result;
+    },
+    {
+      strokes: 0,
+      score: 0,
+      putts: 0
+    }
+  );
+
+  totalStrokes.textContent = totals.strokes;
+  totalScore.textContent = formatScore(totals.score);
+  totalPutts.textContent = totals.putts;
+}
+
+// すべての画面を非表示にする。
+function hideAllScreens() {
+  playScreen.hidden = true;
+  resultScreen.hidden = true;
+  scoreListScreen.hidden = true;
+}
+
 // プレー画面を表示する。
 function showPlayScreen() {
+  hideAllScreens();
   playScreen.hidden = false;
-  resultScreen.hidden = true;
 }
 
 // 結果画面を表示する。
 function showResultScreen() {
   updateResultDisplay();
-
-  playScreen.hidden = true;
+  hideAllScreens();
   resultScreen.hidden = false;
+}
+
+// スコア一覧画面を表示する。
+function showScoreListScreen() {
+  renderScoreList();
+  hideAllScreens();
+  scoreListScreen.hidden = false;
 }
 
 // 「＋1打」を押したときの処理。
@@ -150,23 +222,28 @@ finishHoleButton.addEventListener("click", () => {
 
 // 「次のホールへ」を押したときの処理。
 nextHoleButton.addEventListener("click", () => {
-  // 現在の結果を保存する。
   saveCurrentHole();
 
-  // 次のHoleへ進む。
   currentHole = currentHole + 1;
-
-  // 打数とPUTTをリセットする。
   strokes = 0;
   putts = 0;
 
-  // 新しいHoleのプレー画面を表示する。
   updatePlayDisplay();
   showPlayScreen();
 });
 
 // 「入力画面へ戻る」を押すとプレー画面へ戻る。
 backToPlayButton.addEventListener("click", () => {
+  showPlayScreen();
+});
+
+// 「SCORE一覧」を押すと一覧画面へ移動する。
+openScoreListButton.addEventListener("click", () => {
+  showScoreListScreen();
+});
+
+// 「プレー画面へ戻る」を押すと、現在のHoleへ戻る。
+backToCurrentHoleButton.addEventListener("click", () => {
   showPlayScreen();
 });
 

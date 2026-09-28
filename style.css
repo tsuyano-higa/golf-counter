@@ -167,3 +167,63 @@ button:disabled {
   color: #ffffff;
   background-color: #216e4e;
 }
+.screen-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.screen-header h1 {
+  margin: 0;
+}
+
+.header-button {
+  width: auto;
+  min-height: auto;
+  padding: 10px 12px;
+  font-size: 14px;
+  color: #16382c;
+  background-color: #e6eee9;
+}
+
+.score-list {
+  margin: 32px 0 24px;
+}
+
+.score-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 16px;
+  padding: 16px 4px;
+  text-align: left;
+  border-bottom: 1px solid #d9e3dd;
+}
+
+.score-row-strokes,
+.score-row-score {
+  font-weight: bold;
+}
+
+.empty-score-list {
+  padding: 24px 0;
+  color: #60736c;
+}
+
+.score-summary {
+  margin-bottom: 28px;
+  padding: 20px;
+  background-color: #f2f6f3;
+  border-radius: 12px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  font-size: 18px;
+}
+
+.summary-row strong {
+  font-size: 20px;
+}
