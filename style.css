@@ -431,3 +431,38 @@ button:disabled {
   color: #16382c;
   background-color: #ffffff;
 }
+
+#final-result-screen {
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+}
+
+.final-result-title {
+  margin: 0;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.final-round-date {
+  margin: 24px 0 8px;
+  color: #60736c;
+}
+
+.final-course-name {
+  margin: 0;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.final-summary {
+  margin: 28px 0;
+  padding: 20px;
+  background-color: #f2f6f3;
+  border-radius: 12px;
+}
+
+.final-result-actions {
+  display: grid;
+  gap: 12px;
+  margin-top: 28px;
+}
