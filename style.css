@@ -158,3 +158,12 @@ button:disabled {
   font-size: 40px;
   font-weight: bold;
 }
+.result-actions {
+  display: grid;
+  gap: 12px;
+}
+
+.next-hole-button {
+  color: #ffffff;
+  background-color: #216e4e;
+}

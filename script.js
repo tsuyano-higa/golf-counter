@@ -1,10 +1,13 @@
 // 現在プレーしているホールの情報。
-const currentHole = 1;
+let currentHole = 1;
 const par = 4;
 
 // 現在の打数とPUTT数。
 let strokes = 0;
 let putts = 0;
+
+// 終了したホールの結果を保存する配列。
+const completedHoles = [];
 
 // 画面全体を取得する。
 const playScreen = document.getElementById("play-screen");
@@ -29,12 +32,18 @@ const resultParNumber = document.getElementById("result-par-number");
 const resultStrokes = document.getElementById("result-strokes");
 const resultPutts = document.getElementById("result-putts");
 const resultScore = document.getElementById("result-score");
+
+// 結果画面のボタンを取得する。
+const nextHoleButton = document.getElementById("next-hole");
 const backToPlayButton = document.getElementById("back-to-play");
 
-// スコアを「-1」「±0」「+1」の形式に変換する。
-function formatScore() {
-  const score = strokes - par;
+// スコアを計算する。
+function calculateScore() {
+  return strokes - par;
+}
 
+// スコアを「-1」「±0」「+1」の形式に変換する。
+function formatScore(score) {
   if (score === 0) {
     return "±0";
   }
@@ -65,11 +74,26 @@ function updatePlayDisplay() {
 
 // 現在の状態を結果画面へ反映する。
 function updateResultDisplay() {
+  const score = calculateScore();
+
   resultHoleNumber.textContent = currentHole;
   resultParNumber.textContent = par;
   resultStrokes.textContent = strokes;
   resultPutts.textContent = putts;
-  resultScore.textContent = formatScore();
+  resultScore.textContent = formatScore(score);
+}
+
+// 現在のホール結果を保存する。
+function saveCurrentHole() {
+  const holeResult = {
+    hole: currentHole,
+    par: par,
+    strokes: strokes,
+    putts: putts,
+    score: calculateScore()
+  };
+
+  completedHoles.push(holeResult);
 }
 
 // プレー画面を表示する。
@@ -122,6 +146,23 @@ subtractPuttButton.addEventListener("click", () => {
 // 「ホール終了」を押すと結果画面へ移動する。
 finishHoleButton.addEventListener("click", () => {
   showResultScreen();
+});
+
+// 「次のホールへ」を押したときの処理。
+nextHoleButton.addEventListener("click", () => {
+  // 現在の結果を保存する。
+  saveCurrentHole();
+
+  // 次のHoleへ進む。
+  currentHole = currentHole + 1;
+
+  // 打数とPUTTをリセットする。
+  strokes = 0;
+  putts = 0;
+
+  // 新しいHoleのプレー画面を表示する。
+  updatePlayDisplay();
+  showPlayScreen();
 });
 
 // 「入力画面へ戻る」を押すとプレー画面へ戻る。
