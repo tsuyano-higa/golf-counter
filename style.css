@@ -23,22 +23,34 @@ body {
 }
 
 h1 {
+  margin-top: 0;
   font-size: 24px;
 }
 
-.score {
-  margin: 32px 0;
-  font-size: 80px;
+.count-area {
+  margin: 28px 0;
+}
+
+.count-label {
+  margin-bottom: 4px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.count-display {
+  margin: 0;
+  font-size: 64px;
   font-weight: bold;
 }
 
 .unit {
-  font-size: 20px;
+  font-size: 18px;
 }
 
-.buttons {
+.button-group {
   display: grid;
-  gap: 16px;
+  gap: 12px;
+  margin-top: 20px;
 }
 
 button {
@@ -59,6 +71,16 @@ button {
 #subtract-stroke {
   color: #16382c;
   background-color: #e6eee9;
+}
+
+#add-putt {
+  color: #ffffff;
+  background-color: #287f9b;
+}
+
+#subtract-putt {
+  color: #194d5d;
+  background-color: #e4f0f4;
 }
 
 button:disabled {
